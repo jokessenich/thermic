@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thermic — Mobile Sauna · Ann Arbor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember: #d6532b;
+    --ember-deep: #a83a18;
+    --ash: #1a1614;
+    --ash-soft: #221d1a;
+    --char: #0f0c0a;
+    --paper: #f0e8dc;
+    --paper-warm: #e8dcc7;
+    --sage: #5c6b53;
+    --steam: rgba(240, 232, 220, 0.06);
+    --rule: rgba(240, 232, 220, 0.12);
+    --rule-strong: rgba(240, 232, 220, 0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ash);
+    color: var(--paper);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 300;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  }
+
+  /* Top marquee */
+  .marquee {
+    background: var(--ember);
+    color: var(--char);
+    padding: 8px 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--char);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .marquee-track {
+    display: inline-flex;
+    gap: 3rem;
+    white-space: nowrap;
+    animation: scroll 40s linear infinite;
+  }
+
+  .marquee-track span::before {
+    content: '◆';
+    margin-right: 3rem;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Nav */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(26, 22, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.25rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    font-style: italic;
+  }
+
+  .logo sup {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-style: normal;
+    color: var(--ember);
+    letter-spacing: 0.1em;
+    margin-left: 4px;
+    vertical-align: super;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nav-links a {
+    color: var(--paper);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--ember); }
+
+  .nav-cta {
+    background: var(--ember);
+    color: var(--char);
+    padding: 10px 20px;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-decoration: none;
+  }
+
+  .nav-cta:hover { background: var(--paper); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    padding: 4rem 2.5rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, rgba(214, 83, 43, 0.25) 0%, rgba(214, 83, 43, 0.08) 30%, transparent 65%);
+    filter: blur(40px);
+    pointer-events: none;
+    animation: ember 8s ease-in-out infinite;
+  }
+
+  @keyframes ember {
+    0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.9; }
+    50% { transform: scale(1.1) translate(-2%, 2%); opacity: 1; }
+  }
+
+  .hero-meta {
+    position: absolute;
+    top: 4rem;
+    right: 2.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .hero-meta span { color: var(--ember); }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(3.5rem, 9vw, 8.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+  }
+
+  .hero h1 .ital {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ember);
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--ember);
+  }
+
+  .hero-right {
+    padding-bottom: 1rem;
+  }
+
+  .hero-right p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 38ch;
+    opacity: 0.85;
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+
+  .hero-right p .drop {
+    font-family: 'Fraunces', serif;
+    float: left;
+    font-size: 3.5rem;
+    line-height: 0.9;
+    margin: 0.2rem 0.6rem 0 0;
+    color: var(--ember);
+    font-weight: 400;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 14px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--ember);
+    color: var(--char);
+  }
+
+  .btn-primary:hover {
+    background: var(--paper);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid var(--rule-strong);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--ember);
+    color: var(--ember);
+  }
+
+  .arr { font-size: 14px; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 3rem 1.25rem 2rem; min-height: auto; }
+    .hero-meta { position: static; text-align: left; margin-bottom: 1rem; }
+  }
+
+  /* Sauna SVG illustration */
+  .sauna-art {
+    position: absolute;
+    bottom: 0;
+    right: 2.5rem;
+    width: 280px;
+    height: 280px;
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  @media (max-width: 1100px) { .sauna-art { display: none; } }
+
+  /* TICKER BAR */
+  .ticker {
+    background: var(--char);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.5rem 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .ticker-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ticker-item .label { opacity: 0.5; font-size: 9px; }
+  .ticker-item .value { color: var(--ember); font-size: 14px; font-weight: 500; }
+
+  @media (max-width: 768px) {
+    .ticker { grid-template-columns: repeat(2, 1fr); padding: 1.25rem; gap: 1.25rem; }
+  }
+
+  /* SECTION FRAMING */
+  section { padding: 6rem 2.5rem; position: relative; }
+
+  @media (max-width: 768px) { section { padding: 4rem 1.25rem; } }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::before {
+    content: '§';
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+    max-width: 18ch;
+  }
+
+  .section-title em { color: var(--ember); font-weight: 400; }
+
+  /* TIERS — three levels of service */
+  .tiers {
+    background: var(--ash);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tier {
+    border-right: 1px solid var(--rule);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    transition: background 0.4s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tier:last-child { border-right: none; }
+
+  .tier:hover { background: var(--ash-soft); }
+
+  .tier.featured {
+    background: linear-gradient(180deg, rgba(214, 83, 43, 0.06) 0%, transparent 100%);
+  }
+
+  .tier.featured::before {
+    content: 'Most popular';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--ember);
+    color: var(--char);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    white-space: nowrap;
+  }
+
+  .tier-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }
+
+  .tier-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+
+  .tier-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--rule-strong);
+    color: var(--paper);
+    opacity: 0.7;
+  }
+
+  .tier h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .tier h3 em { font-style: italic; color: var(--ember); }
+
+  .tier-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.7;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .tier-price {
+    font-family: 'Fraunces', serif;
+    font-size: 2.75rem;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.25rem;
+  }
+
+  .tier-price .currency {
+    font-size: 1.25rem;
+    vertical-align: top;
+    margin-right: 2px;
+    opacity: 0.6;
+  }
+
+  .tier-price .unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-left: 4px;
+    font-style: normal;
+  }
+
+  .tier-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 2rem;
+  }
+
+  .tier-features {
+    list-style: none;
+    margin-bottom: 2rem;
+    flex: 1;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+  }
+
+  .tier-features li {
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-weight: 400;
+  }
+
+  .tier-features li .check {
+    color: var(--ember);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .tier-features li .check.dim {
+    color: var(--paper);
+    opacity: 0.25;
+  }
+
+  .tier-features li.muted {
+    opacity: 0.4;
+  }
+
+  .tier-cta {
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    color: var(--paper);
+    padding: 14px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+  }
+
+  .tier-cta:hover {
+    background: var(--ember);
+    border-color: var(--ember);
+    color: var(--char);
+  }
+
+  .tier.featured .tier-cta {
+    background: var(--ember);
+    border-color: var(--ember);
+    color: var(--char);
+  }
+
+  .tier.featured .tier-cta:hover {
+    background: var(--paper);
+    border-color: var(--paper);
+  }
+
+  @media (max-width: 900px) {
+    .tiers-grid { grid-template-columns: 1fr; }
+    .tier { border-right: none; border-bottom: 1px solid var(--rule); }
+    .tier:last-child { border-bottom: none; }
+  }
+
+  /* Add-ons row */
+  .addons {
+    padding: 2.5rem 0 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .addons-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ember);
+    padding-top: 0.5rem;
+  }
+
+  .addons-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem 2rem;
+  }
+
+  .addon {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 1px dashed var(--rule);
+    padding-bottom: 0.5rem;
+  }
+
+  .addon-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .addon-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ember);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .addons { grid-template-columns: 1fr; gap: 1.5rem; }
+    .addons-list { grid-template-columns: 1fr; gap: 1rem; }
+  }
+
+  /* RESERVATION — park spots */
+  .reserve {
+    background: var(--char);
+    color: var(--paper);
+  }
+
+  .reserve-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+    align-items: end;
+  }
+
+  .reserve-intro p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    opacity: 0.8;
+    max-width: 42ch;
+    font-weight: 400;
+  }
+
+  @media (max-width: 768px) {
+    .reserve-intro { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  .schedule {
+    border-top: 1px solid var(--rule);
+  }
+
+  .schedule-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1.4fr 1fr 140px;
+    gap: 2rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+    transition: background 0.3s, padding 0.3s;
+    cursor: pointer;
+  }
+
+  .schedule-row:hover {
+    background: linear-gradient(90deg, transparent, rgba(214, 83, 43, 0.05), transparent);
+    padding-left: 1rem;
+  }
+
+  .sched-date {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+
+  .sched-date .day {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+    font-style: normal;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .sched-loc {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .sched-loc .sub {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.55;
+    font-weight: 300;
+    margin-top: 2px;
+  }
+
+  .sched-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  .sched-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .sched-status.open { color: #8aa886; }
+  .sched-status.few { color: #d4a443; }
+  .sched-status.full { color: #888; opacity: 0.6; }
+
+  .sched-btn {
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    color: var(--paper);
+    padding: 10px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+  }
+
+  .sched-btn:hover:not(:disabled) {
+    background: var(--ember);
+    border-color: var(--ember);
+    color: var(--char);
+  }
+
+  .sched-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  @media (max-width: 900px) {
+    .schedule-row {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem 1.5rem;
+      padding: 1.5rem 0;
+    }
+    .sched-date { grid-column: 1 / 2; }
+    .sched-status { grid-column: 2 / 3; text-align: right; }
+    .sched-loc { grid-column: 1 / 3; }
+    .sched-time { grid-column: 1 / 2; }
+    .sched-btn { grid-column: 2 / 3; }
+  }
+
+  /* HOW IT WORKS — process */
+  .process {
+    background: var(--paper);
+    color: var(--char);
+    border-top: 1px solid var(--char);
+    border-bottom: 1px solid var(--char);
+  }
+
+  .process .section-label { color: var(--ember-deep); }
+  .process .section-label::before { color: var(--ember-deep); }
+  .process .section-title em { color: var(--ember-deep); }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid rgba(15, 12, 10, 0.15);
+  }
+
+  .process-step {
+    padding: 2.5rem 1.75rem;
+    border-right: 1px solid rgba(15, 12, 10, 0.15);
+    position: relative;
+  }
+
+  .process-step:last-child { border-right: none; }
+
+  .process-step .num {
+    font-family: 'Fraunces', serif;
+    font-size: 4rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ember-deep);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .process-step h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .process-step p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    opacity: 0.75;
+    font-weight: 400;
+  }
+
+  @media (max-width: 900px) {
+    .process-grid { grid-template-columns: repeat(2, 1fr); }
+    .process-step:nth-child(2) { border-right: none; }
+    .process-step:nth-child(1), .process-step:nth-child(2) { border-bottom: 1px solid rgba(15, 12, 10, 0.15); }
+  }
+
+  @media (max-width: 540px) {
+    .process-grid { grid-template-columns: 1fr; }
+    .process-step { border-right: none; border-bottom: 1px solid rgba(15, 12, 10, 0.15); }
+    .process-step:last-child { border-bottom: none; }
+  }
+
+  /* PRIVATE BOOK — events */
+  .private {
+    background: var(--ash);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .private::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(214, 83, 43, 0.15) 0%, transparent 60%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .private-wrap {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .private-list {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+  }
+
+  .private-list li {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    gap: 1.5rem;
+    align-items: baseline;
+    transition: padding 0.3s;
+  }
+
+  .private-list li:hover { padding-left: 0.75rem; }
+
+  .private-list .li-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ember);
+    letter-spacing: 0.15em;
+    min-width: 30px;
+  }
+
+  .private-list .li-text strong {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .private-list .li-text span {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+
+  .private-aside {
+    background: var(--char);
+    padding: 2.5rem;
+    border: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .private-aside::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 30px;
+    height: 30px;
+    border-top: 2px solid var(--ember);
+    border-left: 2px solid var(--ember);
+  }
+
+  .private-aside::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 30px;
+    height: 30px;
+    border-bottom: 2px solid var(--ember);
+    border-right: 2px solid var(--ember);
+  }
+
+  .private-aside .quote-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 5rem;
+    line-height: 0.5;
+    color: var(--ember);
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .private-aside blockquote {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    line-height: 1.35;
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .private-aside cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    font-style: normal;
+  }
+
+  .private-aside cite::before {
+    content: '— ';
+    color: var(--ember);
+  }
+
+  @media (max-width: 900px) {
+    .private-wrap { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
+  /* FAQ */
+  .faq {
+    background: var(--char);
+    border-top: 1px solid var(--rule);
+  }
+
+  .faq-list {
+    border-top: 1px solid var(--rule);
+    margin-top: 2rem;
+  }
+
+  details {
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.3s;
+  }
+
+  details[open] { background: var(--ash-soft); }
+
+  details summary {
+    list-style: none;
+    padding: 1.75rem 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+  }
+
+  details summary::-webkit-details-marker { display: none; }
+
+  details summary::before {
+    content: '+';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    color: var(--ember);
+    transition: transform 0.4s;
+    min-width: 20px;
+  }
+
+  details[open] summary::before {
+    content: '−';
+  }
+
+  details summary:hover { color: var(--ember); }
+
+  details[open] summary { padding-bottom: 0.75rem; }
+
+  .faq-answer {
+    padding: 0 0 1.75rem 2.75rem;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    opacity: 0.8;
+    max-width: 70ch;
+    font-weight: 400;
+  }
+
+  /* CTA */
+  .final-cta {
+    background: var(--ember);
+    color: var(--char);
+    padding: 6rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(15, 12, 10, 0.1) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(15, 12, 10, 0.15) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .final-cta h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .final-cta h2 em { font-style: italic; }
+
+  .final-cta p {
+    font-size: 1.1rem;
+    max-width: 50ch;
+    margin: 0 auto 2.5rem;
+    opacity: 0.85;
+    line-height: 1.5;
+    font-weight: 400;
+    position: relative;
+  }
+
+  .cta-btn {
+    background: var(--char);
+    color: var(--paper);
+    padding: 18px 36px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .cta-btn:hover {
+    background: var(--paper);
+    color: var(--char);
+    gap: 18px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--char);
+    padding: 4rem 2.5rem 2rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    footer { padding: 3rem 1.25rem 1.5rem; }
+  }
+
+  .foot-brand h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 2.5rem;
+    font-style: italic;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .foot-brand p {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    max-width: 32ch;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  .foot-col h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 1.25rem;
+  }
+
+  .foot-col ul { list-style: none; }
+  .foot-col li { margin-bottom: 0.6rem; }
+
+  .foot-col a {
+    color: var(--paper);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    font-weight: 400;
+  }
+
+  .foot-col a:hover { opacity: 1; }
+
+  .foot-bottom {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* Reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Now booking spring sessions</span>
+    <span>Wood-fired · 180°F</span>
+    <span>Mobile to your driveway, dock, or favorite trailhead</span>
+    <span>Ann Arbor · Ypsilanti · Dexter · Chelsea</span>
+    <span>Now booking spring sessions</span>
+    <span>Wood-fired · 180°F</span>
+    <span>Mobile to your driveway, dock, or favorite trailhead</span>
+    <span>Ann Arbor · Ypsilanti · Dexter · Chelsea</span>
+  </div>
+</div>
+
+<nav>
+  <div class="logo">Thermic<sup>°AA</sup></div>
+  <ul class="nav-links">
+    <li><a href="#ritual">Tiers</a></li>
+    <li><a href="#reserve">Park Sessions</a></li>
+    <li><a href="#private">Private Events</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#reserve" class="nav-cta">Book →</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-meta">
+    42°16′N · 83°44′W<br>
+    <span>●</span> Ann Arbor, Michigan<br>
+    Est. MMXXIII
+  </div>
+
+  <div class="hero-left">
+    <div class="hero-tag">A wood-fired ritual on wheels</div>
+    <h1>
+      Sweat,<br>
+      <span class="ital">breathe,</span><br>
+      &amp; sit a while.
+    </h1>
+  </div>
+
+  <div class="hero-right">
+    <p>
+      <span class="drop">T</span>hermic is a hand-built mobile sauna roaming the Huron River Valley. We park at your event, your dock, or a quiet corner of the park — light the fire, and welcome you in.
+    </p>
+    <div class="hero-actions">
+      <a href="#reserve" class="btn-primary">Reserve a session <span class="arr">→</span></a>
+      <a href="#private" class="btn-secondary">Book privately</a>
+    </div>
+  </div>
+
+  <svg class="sauna-art" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- steam wisps -->
+    <path d="M70 30 Q72 20 76 22 T80 12" stroke="#d6532b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+    <path d="M95 35 Q98 25 102 27 T106 15" stroke="#d6532b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+    <path d="M120 30 Q122 20 126 22 T130 10" stroke="#d6532b" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+    <!-- trailer body (barrel sauna on wheels) -->
+    <ellipse cx="100" cy="115" rx="60" ry="42" fill="#221d1a" stroke="#d6532b" stroke-width="1"/>
+    <ellipse cx="100" cy="115" rx="60" ry="42" fill="none" stroke="#d6532b" stroke-width="0.5" opacity="0.4"/>
+    <!-- planks -->
+    <line x1="40" y1="115" x2="160" y2="115" stroke="#d6532b" stroke-width="0.4" opacity="0.3"/>
+    <line x1="42" y1="100" x2="158" y2="100" stroke="#d6532b" stroke-width="0.4" opacity="0.3"/>
+    <line x1="42" y1="130" x2="158" y2="130" stroke="#d6532b" stroke-width="0.4" opacity="0.3"/>
+    <!-- door -->
+    <rect x="85" y="95" width="30" height="40" fill="#0f0c0a" stroke="#d6532b" stroke-width="1"/>
+    <circle cx="100" cy="115" r="3" fill="#d6532b"/>
+    <!-- window glow -->
+    <rect x="92" y="103" width="16" height="8" fill="#d6532b" opacity="0.7"/>
+    <!-- chimney with smoke -->
+    <rect x="50" y="65" width="6" height="20" fill="#221d1a" stroke="#d6532b" stroke-width="0.8"/>
+    <path d="M53 55 Q50 48 54 42 T52 30 T56 18" stroke="#f0e8dc" stroke-width="1" stroke-linecap="round" opacity="0.4" fill="none"/>
+    <!-- wheels -->
+    <circle cx="65" cy="160" r="14" fill="#0f0c0a" stroke="#d6532b" stroke-width="1"/>
+    <circle cx="65" cy="160" r="6" fill="none" stroke="#d6532b" stroke-width="0.6"/>
+    <circle cx="135" cy="160" r="14" fill="#0f0c0a" stroke="#d6532b" stroke-width="1"/>
+    <circle cx="135" cy="160" r="6" fill="none" stroke="#d6532b" stroke-width="0.6"/>
+    <!-- ground -->
+    <line x1="20" y1="178" x2="180" y2="178" stroke="#d6532b" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
+  </svg>
+</header>
+
+<div class="ticker">
+  <div class="ticker-item"><span class="label">Capacity</span><span class="value">6 bathers</span></div>
+  <div class="ticker-item"><span class="label">Heat source</span><span class="value">Wood-fired</span></div>
+  <div class="ticker-item"><span class="label">Avg. temp</span><span class="value">170 – 195°F</span></div>
+  <div class="ticker-item"><span class="label">Service area</span><span class="value">~30 mi of A2</span></div>
+</div>
+
+<!-- TIERS / PRIVATE BOOKING LEVELS -->
+<section class="tiers" id="ritual">
+  <div class="section-label reveal">Private Booking · Three Tiers</div>
+  <h2 class="section-title reveal">How <em>hands-on</em> would you like me?</h2>
+
+  <div class="tiers-grid">
+    <!-- TIER 1 -->
+    <article class="tier reveal">
+      <div class="tier-head">
+        <span class="tier-num">Tier 01</span>
+        <span class="tier-tag">Self-serve</span>
+      </div>
+      <h3>The <em>drop-off.</em></h3>
+      <p class="tier-sub">I leave the sauna with you. The rest is your own ritual.</p>
+      <div class="tier-price"><span class="currency">$</span>425<span class="unit">/ weekend</span></div>
+      <div class="tier-note">Fri afternoon → Sun evening</div>
+
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Sauna delivered, leveled, & set up on site</li>
+        <li><span class="check">✓</span> One bundle of seasoned white oak to start</li>
+        <li><span class="check">✓</span> Quick walkthrough: stove, vents, ladle, safety</li>
+        <li><span class="check">✓</span> Towels, ladle, bucket, sauna stones</li>
+        <li><span class="check">✓</span> 24/7 text support if anything's off</li>
+        <li class="muted"><span class="check dim">—</span> Fire-tending on you</li>
+        <li class="muted"><span class="check dim">—</span> Staffing on you</li>
+      </ul>
+
+      <a href="#book" class="tier-cta">Book the drop-off →</a>
+    </article>
+
+    <!-- TIER 2 — featured -->
+    <article class="tier featured reveal">
+      <div class="tier-head">
+        <span class="tier-num">Tier 02</span>
+        <span class="tier-tag">Most chosen</span>
+      </div>
+      <h3>The <em>warm hand-off.</em></h3>
+      <p class="tier-sub">I drop off, light the fire, get you sweating, then slip out.</p>
+      <div class="tier-price"><span class="currency">$</span>575<span class="unit">/ weekend</span></div>
+      <div class="tier-note">Same window, hotter start</div>
+
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Everything in Tier 01</li>
+        <li><span class="check">✓</span> I arrive ~90 min early to fire it up</li>
+        <li><span class="check">✓</span> Sauna at full temp (180°F) when you arrive</li>
+        <li><span class="check">✓</span> Two bundles of oak — enough for the weekend</li>
+        <li><span class="check">✓</span> Guided first round: löyly, breath, cool-down</li>
+        <li><span class="check">✓</span> Cedar bench oils & eucalyptus tincture</li>
+        <li class="muted"><span class="check dim">—</span> You tend the fire after that</li>
+      </ul>
+
+      <a href="#book" class="tier-cta">Book the hand-off →</a>
+    </article>
+
+    <!-- TIER 3 -->
+    <article class="tier reveal">
+      <div class="tier-head">
+        <span class="tier-num">Tier 03</span>
+        <span class="tier-tag">Full service</span>
+      </div>
+      <h3>The <em>fully tended.</em></h3>
+      <p class="tier-sub">I stay the whole time — fire, ritual, and the cold tub.</p>
+      <div class="tier-price"><span class="currency">$</span>165<span class="unit">/ hour</span></div>
+      <div class="tier-note">3-hour minimum · 6 hours typical</div>
+
+      <ul class="tier-features">
+        <li><span class="check">✓</span> Everything in Tier 02</li>
+        <li><span class="check">✓</span> I'm on-site the entire booking</li>
+        <li><span class="check">✓</span> Fire kept at temp, no smoke management for you</li>
+        <li><span class="check">✓</span> Cedar cold plunge tub (45°F) included</li>
+        <li><span class="check">✓</span> Guided rounds for each group of guests</li>
+        <li><span class="check">✓</span> Hot tea station & post-sweat hydration</li>
+        <li><span class="check">✓</span> Towel service & full pack-up</li>
+      </ul>
+
+      <a href="#book" class="tier-cta">Book a tended event →</a>
+    </article>
+  </div>
+
+  <div class="addons">
+    <div class="addons-label">Add to any tier →</div>
+    <div class="addons-list">
+      <div class="addon"><span class="addon-name">Cold plunge tub</span><span class="addon-price">+$95</span></div>
+      <div class="addon"><span class="addon-name">Extra oak (per bundle)</span><span class="addon-price">+$25</span></div>
+      <div class="addon"><span class="addon-name">Birch &amp; eucalyptus whisks</span><span class="addon-price">+$18 ea</span></div>
+      <div class="addon"><span class="addon-name">Hot tea &amp; honey service</span><span class="addon-price">+$45</span></div>
+      <div class="addon"><span class="addon-name">Mileage beyond 30mi</span><span class="addon-price">$1.50/mi</span></div>
+      <div class="addon"><span class="addon-name">Custom branded experience</span><span class="addon-price">inquire</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<section class="reserve" id="reserve">
+  <div class="reserve-intro">
+    <div>
+      <div class="section-label reveal">This Week's Schedule</div>
+      <h2 class="section-title reveal">Where we'll <em>be parked.</em></h2>
+    </div>
+    <p class="reveal">Sessions run 50 minutes — long enough for two good rounds and a cool-down. Bring a swimsuit, a towel, and water. We supply everything else, including hot tea afterward.</p>
+  </div>
+
+  <div class="schedule">
+    <div class="schedule-row reveal">
+      <div class="sched-date">Apr 30 <span class="day">Thu</span></div>
+      <div class="sched-loc">Gallup Park · Pavilion B<span class="sub">Geddes Pond, north lot</span></div>
+      <div class="sched-time">4:00 – 9:00 PM</div>
+      <div class="sched-status open">● 4 spots</div>
+      <button class="sched-btn">Reserve</button>
+    </div>
+    <div class="schedule-row reveal">
+      <div class="sched-date">May 02 <span class="day">Sat</span></div>
+      <div class="sched-loc">Argo Cascades<span class="sub">Below the livery dock</span></div>
+      <div class="sched-time">7:00 AM – 12:00 PM</div>
+      <div class="sched-status few">● 1 spot left</div>
+      <button class="sched-btn">Reserve</button>
+    </div>
+    <div class="schedule-row reveal">
+      <div class="sched-date">May 03 <span class="day">Sun</span></div>
+      <div class="sched-loc">Bird Hills Nature Area<span class="sub">Trailhead at Bird Rd.</span></div>
+      <div class="sched-time">8:00 AM – 1:00 PM</div>
+      <div class="sched-status open">● 6 spots</div>
+      <button class="sched-btn">Reserve</button>
+    </div>
+    <div class="schedule-row reveal">
+      <div class="sched-date">May 07 <span class="day">Thu</span></div>
+      <div class="sched-loc">Riverside Park · Ypsilanti<span class="sub">Across from the Depot</span></div>
+      <div class="sched-time">5:00 – 10:00 PM</div>
+      <div class="sched-status full">● Fully booked</div>
+      <button class="sched-btn" disabled>Waitlist</button>
+    </div>
+    <div class="schedule-row reveal">
+      <div class="sched-date">May 09 <span class="day">Sat</span></div>
+      <div class="sched-loc">Hudson Mills Metropark<span class="sub">Group picnic area, Dexter</span></div>
+      <div class="sched-time">9:00 AM – 3:00 PM</div>
+      <div class="sched-status open">● 5 spots</div>
+      <button class="sched-btn">Reserve</button>
+    </div>
+    <div class="schedule-row reveal">
+      <div class="sched-date">May 10 <span class="day">Sun</span></div>
+      <div class="sched-loc">Bandemer Park<span class="sub">Riverside, near boat launch</span></div>
+      <div class="sched-time">7:30 AM – 12:30 PM</div>
+      <div class="sched-status few">● 2 spots left</div>
+      <button class="sched-btn">Reserve</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="section-label reveal">How a Visit Unfolds</div>
+  <h2 class="section-title reveal">A simple <em>rhythm.</em></h2>
+
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <div class="num">i.</div>
+      <h4>Show up.</h4>
+      <p>Find us at the spot at your booked time. Park in the lot — we're the cedar trailer with smoke curling out the chimney.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="num">ii.</div>
+      <h4>Change in.</h4>
+      <p>There's a small canvas changing tent attached. Hooks for clothes, a basket for boots. Suit on, towel in hand.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="num">iii.</div>
+      <h4>Sweat & cool.</h4>
+      <p>Cedar benches, hot stones, a löyly ladle. Step out for cold air, river dip, or snowbank — whatever the season offers.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="num">iv.</div>
+      <h4>Linger.</h4>
+      <p>Hot tea, a quiet bench, no rush. Most people take three rounds and leave looser than they came in.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVATE -->
+<section class="private" id="private">
+  <div class="private-wrap">
+    <div>
+      <div class="section-label reveal">For Your People</div>
+      <h2 class="section-title reveal">Bring it <em>to your place.</em></h2>
+      <ul class="private-list">
+        <li class="reveal">
+          <span class="li-num">01.</span>
+          <span class="li-text"><strong>Backyard birthdays & bachelorettes</strong><span>Up to 6 in the sauna, plus a cedar cold tub. We staff the fire so you don't have to.</span></span>
+        </li>
+        <li class="reveal">
+          <span class="li-num">02.</span>
+          <span class="li-text"><strong>Corporate offsites & retreats</strong><span>A grounded counterpoint to the slide deck. Half-day and full-day wellness add-ons available.</span></span>
+        </li>
+        <li class="reveal">
+          <span class="li-num">03.</span>
+          <span class="li-text"><strong>Post-race recovery</strong><span>Marathons, triathlons, gravel rides. Park us at the finish line — your team will thank you.</span></span>
+        </li>
+        <li class="reveal">
+          <span class="li-num">04.</span>
+          <span class="li-text"><strong>Lakefront weekends</strong><span>Two-night minimum at cottages on Whitmore, Portage, or Halfmoon. Ice baths included.</span></span>
+        </li>
+        <li class="reveal">
+          <span class="li-num">05.</span>
+          <span class="li-text"><strong>Weddings & rehearsal dinners</strong><span>An unexpected, memorable touch. Custom branding and guided rounds available on request.</span></span>
+        </li>
+      </ul>
+    </div>
+
+    <aside class="private-aside reveal">
+      <div class="quote-mark">"</div>
+      <blockquote>The whole bridal party piled in after the rehearsal. Steam, river plunge, hot tea by the firepit — it ended up being the moment everyone talked about the next morning.</blockquote>
+      <cite>Hannah & Theo · Dexter, MI · Sept '25</cite>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-label reveal">Things People Ask</div>
+  <h2 class="section-title reveal">Good <em>questions.</em></h2>
+
+  <div class="faq-list reveal">
+    <details>
+      <summary>How hot does it actually get?</summary>
+      <div class="faq-answer">Between 170°F and 195°F at bench height. A wood stove gives a softer, more humid heat than the electric kind — you'll sweat plenty without the dry sting. We can dial it cooler on request.</div>
+    </details>
+    <details>
+      <summary>What should I wear?</summary>
+      <div class="faq-answer">A swimsuit is the simplest answer. Some folks wear a wrap or shorts. Bring two towels — one to sit on, one to dry off — though we'll loan you a bench towel if you forget.</div>
+    </details>
+    <details>
+      <summary>Is there a cold plunge?</summary>
+      <div class="faq-answer">At public sessions and private events, yes — we bring a cedar cold tub kept around 45°F. At weekend rentals, we can include it for an add-on fee. In winter, the river works too.</div>
+    </details>
+    <details>
+      <summary>Which tier should I pick?</summary>
+      <div class="faq-answer">If you grew up around wood stoves and like tending fires, Tier 01 is plenty — most weekend renters love the autonomy. If it's your first sauna or you want to start hot without thinking about it, Tier 02 is the sweet spot. Tier 03 is for events with rotating guests, where you want everything handled and a host on the ground.</div>
+    </details>
+    <details>
+      <summary>How does private booking work?</summary>
+      <div class="faq-answer">We need a flat, accessible spot roughly 25 feet long with overhead clearance. A driveway, gravel pad, or firm grass works fine. Power isn't required — we run on wood. We'll do a quick site check the week before, and on the day of we'll dial in the level and brief you on whichever tier you've picked.</div>
+    </details>
+    <details>
+      <summary>What if it rains?</summary>
+      <div class="faq-answer">Sauna in the rain is genuinely one of the great things on earth. We run sessions in any weather short of lightning. If we cancel for safety, you reschedule or refund — your call.</div>
+    </details>
+    <details>
+      <summary>Do you serve all of Washtenaw County?</summary>
+      <div class="faq-answer">Roughly a 30-mile radius from downtown Ann Arbor — Ypsi, Dexter, Chelsea, Saline, Whitmore Lake. Beyond that, we charge a small mileage fee. Reach out and we'll work it out.</div>
+    </details>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Get warm. <em>Stay a while.</em></h2>
+  <p>Book a public session, plan a weekend, or send us the wildest event you can think of. We're game.</p>
+  <a href="#reserve" class="cta-btn">Reserve a session <span>→</span></a>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <h4>Thermic.</h4>
+      <p>A wood-fired mobile sauna based out of Ann Arbor, Michigan. Built by hand, run by humans, fueled by white oak.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Visit</h5>
+      <ul>
+        <li><a href="#ritual">The Sauna</a></li>
+        <li><a href="#reserve">Schedule</a></li>
+        <li><a href="#private">Private events</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Reach us</h5>
+      <ul>
+        <li><a href="mailto:hello@thermicsauna.com">hello@thermicsauna.com</a></li>
+        <li><a href="tel:7345550199">(734) 555-0199</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Service area</h5>
+      <ul>
+        <li>Ann Arbor</li>
+        <li>Ypsilanti</li>
+        <li>Dexter & Chelsea</li>
+        <li>Whitmore Lake</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© MMXXVI Thermic Sauna Co.</span>
+    <span>Stoked in Michigan</span>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
