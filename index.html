@@ -129,6 +129,25 @@
     color: var(--walnut);
   }
 
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: var(--walnut);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    transition: opacity 0.3s;
+  }
+
+  .nav-link:hover { opacity: 1; }
+
   .nav-call {
     display: flex;
     align-items: center;
@@ -159,6 +178,7 @@
   @media (max-width: 640px) {
     nav { padding: 0.85rem 1.25rem; }
     .nav-mark { font-size: 0.75rem; letter-spacing: 0.25em; }
+    .nav-right { gap: 1rem; }
     .nav-call .label { display: none; }
     .nav-call { padding: 9px 12px; }
   }
@@ -518,10 +538,13 @@
 
 <nav>
   <span class="nav-mark">Thermic</span>
-  <a href="tel:+17345318005" class="nav-call">
-    <span class="dot"></span>
-    <span class="label">Nick ·&nbsp;</span>(734) 531-8005
-  </a>
+  <div class="nav-right">
+    <a href="gallery.html" class="nav-link">Gallery</a>
+    <a href="tel:+17345318005" class="nav-call">
+      <span class="dot"></span>
+      <span class="label">Nick ·&nbsp;</span>(734) 531-8005
+    </a>
+  </div>
 </nav>
 
 <header class="hero">

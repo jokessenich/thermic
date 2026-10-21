@@ -5,12 +5,18 @@ Single-page site for Thermic Mobile Sauna in Ann Arbor, MI. Static HTML, no buil
 ## Files
 
 ```
-index.html         The site
-thermic-logo.png   Logo (also used as apple-touch-icon and OG preview image)
-favicon.svg        Browser tab icon
-robots.txt         Tells search engines they're welcome
-sitemap.xml        Lists the one page for Google
-README.md          This file
+index.html              Home page
+gallery.html            Photo gallery page
+thermic-logo.png        Logo (used in nav, OG preview, apple-touch-icon)
+photo-driveway.jpg      Gallery: parked trailer, driveway
+photo-firing-up.jpg     Gallery: smoke from the chimney
+photo-interior.jpg      Gallery: back doors open, cedar interior
+photo-dusk.jpg          Gallery: glowing flame at dusk
+photo-gathering.jpg     Gallery: night, group around fire
+favicon.svg             Browser tab icon
+robots.txt              Tells search engines they're welcome
+sitemap.xml             Lists pages for Google
+README.md               This file
 ```
 
 ## Deploy

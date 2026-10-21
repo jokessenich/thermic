@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="apple-touch-icon" href="thermic-logo.png" />
+<meta name="theme-color" content="#f3ead8" />
+
+<!-- SEO -->
+<title>Gallery — Thermic Mobile Sauna · Ann Arbor, MI</title>
+<meta name="description" content="Photos of Thermic — a wood-fired mobile sauna in Ann Arbor, Michigan. See the trailer, the cedar interior, and the evening gatherings around the fire." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://thermicsauna.com/gallery.html" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Thermic Mobile Sauna" />
+<meta property="og:title" content="Gallery — Thermic Mobile Sauna" />
+<meta property="og:description" content="Photos from the field — Thermic in driveways, by firepits, under the night sky." />
+<meta property="og:url" content="https://thermicsauna.com/gallery.html" />
+<meta property="og:image" content="https://thermicsauna.com/photo-dusk.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f3ead8;
+    --cream-warm: #ede1c9;
+    --cedar: #d9c29b;
+    --walnut: #3b2b1c;
+    --char: #1f1710;
+    --ember: #a84f21;
+    --rule: rgba(59, 43, 28, 0.14);
+    --rule-strong: rgba(59, 43, 28, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--walnut);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 300;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.3;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.2'/%3E%3C/svg%3E");
+  }
+
+  .planks {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.3;
+    background-image:
+      linear-gradient(to bottom, transparent 0, transparent calc(100% - 1px), rgba(184, 151, 112, 0.3) 100%);
+    background-size: 100% 160px;
+  }
+
+  /* NAV — same as home */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(243, 234, 216, 0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+    padding: 1rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--walnut);
+    text-decoration: none;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: var(--walnut);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    transition: opacity 0.3s;
+  }
+
+  .nav-link:hover { opacity: 1; }
+  .nav-link.current { opacity: 1; color: var(--ember); }
+
+  .nav-call {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--walnut);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 10px 16px;
+    border: 1px solid var(--rule-strong);
+    transition: all 0.3s;
+  }
+
+  .nav-call:hover {
+    background: var(--walnut);
+    color: var(--cream);
+    border-color: var(--walnut);
+  }
+
+  .nav-call .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ember);
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 0.85rem 1.25rem; }
+    .nav-mark { font-size: 0.75rem; letter-spacing: 0.25em; }
+    .nav-right { gap: 1rem; }
+    .nav-call .label { display: none; }
+    .nav-call { padding: 9px 12px; }
+  }
+
+  /* GALLERY HERO */
+  .gallery-hero {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 5rem 2.5rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .gallery-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .gallery-tag::before,
+  .gallery-tag::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--walnut);
+    opacity: 0.5;
+  }
+
+  .gallery-hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--walnut);
+    margin-bottom: 1.5rem;
+  }
+
+  .gallery-hero h1 em { font-style: italic; color: var(--ember); font-weight: 300; }
+
+  .gallery-hero p {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    opacity: 0.75;
+    max-width: 48ch;
+    margin: 0 auto;
+  }
+
+  /* GALLERY STACK */
+  .gallery {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem 5rem;
+  }
+
+  .photo-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .photo {
+    display: block;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+
+  .photo.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .photo-frame {
+    display: block;
+    overflow: hidden;
+    background: var(--cream-warm);
+    box-shadow: 0 20px 40px -20px rgba(59, 43, 28, 0.3), 0 1px 0 rgba(59, 43, 28, 0.1);
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 1.2s ease;
+  }
+
+  .photo-frame:hover img {
+    transform: scale(1.02);
+  }
+
+  .photo-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .photo-caption {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: -0.005em;
+    max-width: 48ch;
+  }
+
+  .photo-caption em { color: var(--ember); font-style: italic; }
+
+  .photo-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    white-space: nowrap;
+  }
+
+  /* Side-by-side pair for the two portraits */
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .photo-pair .photo { margin: 0; }
+
+  @media (max-width: 768px) {
+    .photo-pair { grid-template-columns: 1fr; gap: 4rem; }
+    .photo-stack { gap: 3rem; }
+    .gallery { padding: 1.5rem 1.25rem 3rem; }
+    .gallery-hero { padding: 3rem 1.25rem 2rem; }
+    .photo-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  /* CTA back to booking */
+  .back-to-book {
+    position: relative;
+    z-index: 2;
+    background: var(--walnut);
+    color: var(--cream);
+    padding: 5rem 2.5rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .back-to-book::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to bottom, transparent 0, transparent calc(100% - 1px), rgba(243, 234, 216, 0.05) 100%);
+    background-size: 100% 120px;
+    pointer-events: none;
+  }
+
+  .back-to-book-inner {
+    position: relative;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .back-to-book h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+  }
+
+  .back-to-book h2 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--cedar);
+  }
+
+  .back-to-book-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--cream);
+    color: var(--walnut);
+    padding: 16px 26px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .btn-primary:hover { background: var(--cedar); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cream);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 16px 22px;
+    border: 1px solid rgba(243, 234, 216, 0.3);
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover { border-color: var(--cedar); color: var(--cedar); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 2;
+    background: var(--cream);
+    padding: 2.5rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    footer { padding: 2rem 1.25rem; justify-content: center; text-align: center; }
+    .back-to-book { padding: 3.5rem 1.25rem; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="planks" aria-hidden="true"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark">Thermic</a>
+  <div class="nav-right">
+    <a href="gallery.html" class="nav-link current">Gallery</a>
+    <a href="tel:+17345318005" class="nav-call">
+      <span class="dot"></span>
+      <span class="label">Nick ·&nbsp;</span>(734) 531-8005
+    </a>
+  </div>
+</nav>
+
+<header class="gallery-hero">
+  <div class="gallery-tag">A few from the field</div>
+  <h1>Thermic, <em>in the wild.</em></h1>
+  <p>Driveways, firepits, the first smoke from the chimney at dusk. Here's what a visit tends to look like.</p>
+</header>
+
+<section class="gallery">
+  <div class="photo-stack">
+
+    <figure class="photo">
+      <div class="photo-frame">
+        <img src="photo-driveway.jpg" alt="Thermic mobile sauna parked in a residential Ann Arbor driveway on an overcast fall day." loading="lazy" />
+      </div>
+      <figcaption class="photo-meta">
+        <span class="photo-caption">Parked in a driveway in <em>Ann Arbor</em> — a stock-tank cold plunge waiting on the terrace.</span>
+        <span class="photo-num">No. 01</span>
+      </figcaption>
+    </figure>
+
+    <figure class="photo">
+      <div class="photo-frame">
+        <img src="photo-firing-up.jpg" alt="Side view of the Thermic trailer with woodsmoke rising from the chimney as the stove heats up." loading="lazy" />
+      </div>
+      <figcaption class="photo-meta">
+        <span class="photo-caption">Fire going. Twenty minutes to <em>temperature</em>.</span>
+        <span class="photo-num">No. 02</span>
+      </figcaption>
+    </figure>
+
+    <!-- Two portraits side-by-side -->
+    <div class="photo-pair">
+      <figure class="photo">
+        <div class="photo-frame">
+          <img src="photo-interior.jpg" alt="Back doors of the Thermic trailer open, revealing cedar-paneled sauna, cedar step, firewood stacked beside." loading="lazy" />
+        </div>
+        <figcaption class="photo-meta">
+          <span class="photo-caption">Cedar inside, cedar step, <em>white oak</em> at the ready.</span>
+          <span class="photo-num">No. 03</span>
+        </figcaption>
+      </figure>
+
+      <figure class="photo">
+        <div class="photo-frame">
+          <img src="photo-dusk.jpg" alt="Dusk shot of the Thermic sauna with the flame logo glowing from within, a fire burning nearby." loading="lazy" />
+        </div>
+        <figcaption class="photo-meta">
+          <span class="photo-caption">Dusk falls. The flame <em>lights up</em>.</span>
+          <span class="photo-num">No. 04</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <figure class="photo">
+      <div class="photo-frame">
+        <img src="photo-gathering.jpg" alt="Night: group of people gathered around a firepit next to the glowing Thermic sauna." loading="lazy" />
+      </div>
+      <figcaption class="photo-meta">
+        <span class="photo-caption">The way it's meant to be — <em>a gathering</em>, a fire, a round or three.</span>
+        <span class="photo-num">No. 05</span>
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="back-to-book">
+  <div class="back-to-book-inner">
+    <h2>Ready to <em>book a date?</em></h2>
+    <div class="back-to-book-actions">
+      <a href="tel:+17345318005" class="btn-primary">Call Nick · (734) 531-8005</a>
+      <a href="sms:+17345318005" class="btn-secondary">Send a text →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Thermic Mobile Sauna</span>
+  <span>Ann Arbor, Michigan</span>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.photo').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
